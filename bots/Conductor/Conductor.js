@@ -346,7 +346,8 @@ const ConductorVirtual = function ConductorVirtual(app) {
         }
 
         playerArray.push({ name, endpoint });
-        bwait(self.updateBot({ custom: self.settings.custom }));
+        self.settings.custom.players = playerArray;
+        bwait(self.updateBot({ custom: {players:playerArray} }));
         // should update the database version of this
         return self.getBot();
       } catch (ex) {
@@ -360,6 +361,8 @@ const ConductorVirtual = function ConductorVirtual(app) {
         if (name === undefined) {
           throw '"name" is undefined';
         }
+        if (_.isString(self.settings.custom))
+          self.settings.custom = JSON.parse(self.settings.custom);
 
         const players = self.settings.custom.players;
         let playerRemoved = false;

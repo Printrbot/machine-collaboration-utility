@@ -217,6 +217,15 @@ Bot.prototype.updateBot = bsync(function updateBot(newSettings) {
       }
     }
   }
+
+  if (_.isString(settingsToUpdate)) {
+    settingsToUpdate = JSON.parse(settingsToUpdate);
+  }
+
+  if (_.isString(settingsToUpdate.custom)) {
+    settingsToUpdate.custom = JSON.parse(settingsToUpdate.custom);
+  }
+
   if (settingsToUpdate.endpoint !== undefined) {
     this.setPort(settingsToUpdate.endpoint);
   }
