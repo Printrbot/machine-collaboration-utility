@@ -40,7 +40,8 @@ const ConductorVirtual = function ConductorVirtual(app) {
         bwait(self.commands.setupConductorArms(self));
 
         // Go through each player and connect it
-        const players = JSON.parse(self.settings.custom).players;
+
+        const players = _.isString(self.settings.custom) ? JSON.parse(self.settings.custom).players : self.settings.custom.players;
         for (const player of players) {
           const localPlayer = _.find(self.app.context.bots.botList, (bot) => {
             return bot.port === player.endpoint;
@@ -198,7 +199,10 @@ const ConductorVirtual = function ConductorVirtual(app) {
       let doneConducting = true;
       let accumulatePercentComplete = 0;
       if (self.fsm.current === 'processingJob') {
-        const players = JSON.parse(self.settings.custom).players;
+
+        
+        const players = _.isString(self.settings.custom) ? JSON.parse(self.settings.custom).players : self.settings.custom.players;
+
         for (const player of players) {
           if (player.jobUuid !== undefined) {
             // Ping each job for status
